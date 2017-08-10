@@ -1,0 +1,37 @@
+// 主色调（main-color）
+mc=rgba(211,59,48,1)
+//mc=rgba(0,59,48,1)
+// 函数
+
+font($size,$lh,$weight,$family="Microsoft YaHei")
+    font:$size/$lh $weight $famliy
+//  px 转换成rem
+rem($px)
+    $px/40rem
+//    字体大小 rem
+fz($size)
+    font-size: ($size/40)rem
+    // font-size: ($size/2)px
+// 居中
+center()
+    position: absolute
+    left: 50%
+    top: 50%
+    transform translate(-50%, -50%)
+// 全屏
+allcover()
+    position absolute
+    left 0
+    top 0
+    right 0
+    bottom 0
+// 旋转动画
+@keyframes rotate {
+    0% {
+        transform: translate(-50%,-50%) rotate(0)
+    }
+    to {
+        transform: translate(-50%,-50%) rotate(360deg)
+    }
+}
+
