@@ -88,7 +88,10 @@
   .nav
     width: 100%
     display: flex
-    position relative
+    position fixed
+    top 50px
+    background-color #fff
+    z-index 10
     li
       flex 1
       color: #666
@@ -108,5 +111,7 @@
       left 0
       bottom 0
       transition all .3s ease-out
+  .router-wrap
+    margin-top 100px
 </style>
 

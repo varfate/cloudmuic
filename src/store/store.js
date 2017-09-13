@@ -20,10 +20,10 @@ const state = {
 
 const mutations = {
   play(state) {
-    state.audio.isPlaying = true
+    state.isPlaying = true
   },
   pause(state) {
-    state.audio.isPlaying = false
+    state.isPlaying = false
   },
   updateList(state, list) {
     state.audio.list = list
