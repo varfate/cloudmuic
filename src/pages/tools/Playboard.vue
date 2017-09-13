@@ -1,7 +1,7 @@
 <template>
   <div class="playboard">
     <div class="bg">
-      <div class="bg-img" :style="{backgroundImage: 'url('+song.al.picUrl+')'}"></div>
+      <div class="bg-img" :style="{backgroundImage: 'url('+audio.picUrl+')'}"></div>
       <div class="bg-color"></div>
     </div>
     <div class="song">
@@ -9,14 +9,13 @@
       <div class="header">
         <p class="go-back iconfont icon-back" @click="goBack"></p>
         <p class="title ellipsis">
-          <span class="ellipsis">{{song.name}}</span>
-          <span class="ellipsis">{{song.ar[0].name}}</span>
+          <span class="ellipsis">{{audio.name}}</span>
+          <span class="ellipsis">{{audio.name}}</span>
         </p>
         <p class="action iconfont icon-fenxiang"></p>
       </div>
       <!-- 封面 -->
-      <div class="cover" :class="{rotate: isPlaying}"><img :src="song.al.picUrl"></div>
-      <audio ref="audio" :src="song.url"></audio>
+      <div class="cover" :class="{rotate: isPlaying}"><img :src="audio.picUrl"></div>
       <div class="operation">
         <div></div>
         <!--进度条-->
@@ -31,7 +30,7 @@
         <div class="btns">
           <p class="mode iconfont icon-liebiaoxunhuan" @click=""></p>
           <p class="prev iconfont icon-prev" @click="prev"></p>
-          <p class="play-pause" @click="playPause">
+          <p class="play-pause" @click="togglePlayStatus">
             <span v-show="!isPlaying" class="iconfont icon-play"></span>
             <span v-show="isPlaying" class="iconfont icon-pause"></span>
           </p>
@@ -45,21 +44,10 @@
 <script>
   import {formatDate} from '@/js/utils'
   import api from '@/api/api'
+  import {mapState, mapMutations} from 'vuex'
   export default {
     data() {
       return {
-        song: {
-          name:'',
-          al: {
-            picUrl:''
-          },
-          ar:[{
-              name: ''
-          }],
-          url:'' // 歌曲播放链接
-        },
-        isPlaying: false,
-        audio: null,
         curRate: 0,          // 当前进度条背景色的比例
         raf: null,          // 动画返回的一个ID值，通过把这个ID值传给window.cancelAnimationFrame()可以取消该次动画。
         progWidth: null,    // 进度条宽度
@@ -69,21 +57,21 @@
       }
     },
     methods: {
+      ...mapMutations(['setAudioIndex','addToList', 'pause']),
       prev() {
 
       },
       next() {
 
       },
-      playPause() {
-        if(!this.audio) return;
-        if(this.audio.paused){
-          this.audio.play();
-          this.isPlaying = true
-          return;
+      togglePlayStatus() {
+        if(this.isPlaying) {
+          this.$store.commit('pause')
+          document.getElementById('song').pause()
+        } else {
+          this.$store.commit('play')
+          document.getElementById('song').play()
         }
-        this.audio.pause();
-        this.isPlaying = false
       },
       goBack() {
         this.$router.go(-1)
@@ -100,18 +88,10 @@
       }
     },
     created() {
-      let id = this.$route.params.id
-      axios.get(api.getSong(id))
-        .then((res) => {
-          this.song.url = res.data[0].url
-
-        })
-        .catch((err) => {
-          console.log("错误："+err)
-        })
+      
     },
     computed: {
-
+      ...mapState(['audio', 'isPlaying'])
     },
     activated() {
 //      axios.get(BASEURL+'/music/url?id='+id)
@@ -151,6 +131,7 @@
 @import '../../stylus/mixin'
 .playboard
   allcover()
+  z-index 999
   .bg
     allcover()
     z-index 1
@@ -206,6 +187,8 @@
       border 4px solid rgba(255,255,255,.2)
       img
         border-radius 50%
+        width 100%
+        height 100%
     .rotate
       animation rotate 30s linear 0s infinite
     .operation

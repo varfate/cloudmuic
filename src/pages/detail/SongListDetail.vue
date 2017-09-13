@@ -70,9 +70,9 @@
             </p>
             <p class="multi-select"><i class="iconfont"></i>多选</p>
           </li>
-          <li class="list-item" v-for="(item, index) in listContent" :key="item.id">
+          <li class="list-item" v-for="(item, index) in listContent" :key="item.id" @click="addPlayOneSong(item)">
             <span class="num" v-if="listInfo.ordered">{{index+1}}</span>
-            <div :to="{name:'Playboard',params:{id:item.id}}" class="name ellipsis" @click="addPlayOneSong(item)">
+            <div :to="{name:'Playboard',params:{id:item.id}}" class="name ellipsis">
               <p class="song-name ellipsis">{{item.name}}</p>
               <p class="singer ellipsis">{{item.ar[0].name}}<span v-if="item.al.name"> - </span>{{item.al.name}}</p>
             </div>
@@ -133,7 +133,7 @@
         'list'])
     },
     methods: {
-      ...mapMutations(['setAudioIndex','addToList', 'play']),
+      ...mapMutations(['setAudioIndex','addToList', 'pause']),
       // 初始化数据
       initData() {
         let tmpArr = this.$route.path.split('/')
@@ -161,28 +161,31 @@
       },
       // 点击歌曲，添加至列表并播放
       addPlayOneSong(song) {
+        // 获取歌曲播放链接
+        axios.get(api.getSong(song.id)).then((res) => {
+          console.log(song.id+'这首歌的链接为'+res.data.data[0].url)
           let audio = {
             id: song.id,
             name: song.name,
             singer: song.ar[0].name,
             picUrl: song.al.picUrl, // 默认图片
-            src:''  // 歌曲链接
+            src: res.data.data[0].url
           };
-        // 检查是否重复
-        //  把list转化为Map对象(用forEach无法打断循环，直接用for...of 无法获取index，所以需要先转化,为了练习新语法)
-        let arrList = this.list.map((item, index) => [index, item])
-        let mapList = new Map(arrList);
-        for([index, item] of mapList) {
-          //  如果列表中已经包含了这首歌曲，直接播放
-          if (item.id == song.id) {
-            this.$store.commit('setAudioIndex', index)
-            return
+          // 检查是否重复
+          //  把list转化为Map对象(用forEach无法打断循环，直接用for...of 无法获取index，所以需要先转化,为了练习新语法)
+          let arrList = this.list.map((item, index) => [index, item])
+          let mapList = new Map(arrList);
+          for([index, item] of mapList) {
+            //  如果列表中已经包含了这首歌曲，直接播放
+            if (item.id == song.id) {
+              this.$store.commit('setAudioIndex', index)
+              return
+            }
           }
-        }
-        this.$store.commit('addToList', audio)
-        this.$store.commit('setAudioIndex', this.list.length - 1)
-        this.$store.commit('play')
-        console.log(this.list)
+          this.$store.commit('addToList', audio)
+          this.$store.commit('setAudioIndex', this.list.length - 1)
+          this.$store.commit('pause')
+        })
       }
     },
     components: {

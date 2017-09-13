@@ -1,29 +1,57 @@
 <template>
-    <div class="player-mini">
-        <div class="inner">
-          <p class="img"><img :src="audio.picUrl" /></p>
-          <p class="song">
-            <span class="song-name">{{audio.name}}</span>
-            <span class="singer">{{audio.singer}}</span>
-          </p>
-          <p class="paly-btn iconfont" :class="{'icon-play': !isPlaying, 'icon-pause': isPlaying }" @click="test"></p>
-          <p class="list-btn iconfont icon-listview"></p>
-        </div>
-        <div class="list">
-        </div>
+    <div class="player-mini" @click="showPlayboard">
+      <!-- 加载歌曲 -->
+      <audio id="song" :src="audio.src" @canplay="canPlaySong"></audio>
+      <div class="inner">
+        <p class="img"><img :src="audio.picUrl"/></p>
+        <p class="song">
+          <span class="song-name">{{audio.name}}</span>
+          <span class="singer">{{audio.singer}}</span>
+        </p>
+        <p class="paly-btn iconfont" :class="{'icon-play': !isPlaying, 'icon-pause': isPlaying }" @click.stop="togglePlayStatus"></p>
+        <p class="list-btn iconfont icon-listview"></p>
+      </div>
+      <div class="list">
+      </div>
     </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
     export default {
+      data() {
+        return {
+          song: null
+        }
+      },
+      created() {
+        this.$nextTick(() => {
+          this.song = this.$refs.song
+        })
+      },
       mounted(){
-        this.test()
+
       },
       methods: {
-        test() {
-          console.log(this.isPlaying);
+        ...mapMutations(['setAudioIndex','addToList', 'play', 'pause']),
+        togglePlayStatus() {
+          if(this.isPlaying){
+            document.getElementById('song').pause();
+            this.$store.commit('pause')
+          } else {
+            document.getElementById('song').play();
+            this.$store.commit('play')
+          }
+        },
+        showPlayboard() {
+          this.$router.push('/playboard')
+        },
+        canPlaySong() {
+          document.getElementById('song').play();
+          this.$store.commit('play')
         }
+      },
+      watch: {
       },
       computed:{
         ...mapState([

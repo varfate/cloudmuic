@@ -72,7 +72,7 @@ export default new Router({
     },
     {
       name: 'Playboard',
-      path: '/playboard/:id',
+      path: '/playboard',
       component: Playboard
     },
     {
