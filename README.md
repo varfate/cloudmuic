@@ -1,21 +1,13 @@
-# qi-music2
+# 仿网易云音乐
 
 > 仿网易云音乐
 
-## Build Setup
+## _基于vue、vue-router、vuex_
+### 已实现功能
+* 播放，暂停，播放状态保持一致
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+#### 后续
+* 美化路由切换动画效果
+* 歌曲播放进度条
+* 本地存储，刷新状态不丢失
+* ...
