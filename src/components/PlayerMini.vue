@@ -3,14 +3,13 @@
         <div class="inner">
           <p class="img"><img :src="audio.picUrl" /></p>
           <p class="song">
-              <span class="song-name">{{audio.name}}</span>
-              <span class="singer">{{audio.singer}}</span>
+            <span class="song-name">{{audio.name}}</span>
+            <span class="singer">{{audio.singer}}</span>
           </p>
           <p class="paly-btn iconfont" :class="{'icon-play': !isPlaying, 'icon-pause': isPlaying }"></p>
           <p class="list-btn iconfont icon-listview"></p>
         </div>
         <div class="list">
-
         </div>
     </div>
 </template>
@@ -23,7 +22,7 @@
       },
       methods: {
         test() {
-            console.log(this.audio.id)
+          console.log(this.audio.id)
         }
       },
       computed:{

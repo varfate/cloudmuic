@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from '../App'
-const Index = r => require.ensure([], () => r(require('@/pages/index/Index')), 'Index')
-const Home = r => require.ensure([], () => r(require('@/pages/index/children/Home')), 'Home')
-const Reco = r => require.ensure([], () => r(require('@/pages/index/children/Reco')), 'Reco')
-const Topic = r => require.ensure([], () => r(require('@/pages/index/children/Topic')), 'Topic')
-const Mine = r => require.ensure([], () => r(require('@/pages/index/children/Mine')), 'Mine')
-const SongList = r => require.ensure([], () => r(require('@/pages/index/children/SongList')), 'SongList')
-const Radio = r => require.ensure([], () => r(require('@/pages/index/children/Radio')), 'Radio')
-const Rank = r => require.ensure([], () => r(require('@/pages/index/children/Rank')), 'Rank')
-const SongListDetail = r => require.ensure([], () => r(require('@/pages/detail/SongListDetail')), 'SongListDetail')
-const Playboard = r => require.ensure([], () => r(require('@/pages/tools/Playboard')), 'Playboard')
-// const Search = r => require.ensure([], () => r(require('@/pages/tools/Search')), 'Search')
+const Index = () => import('@/pages/index/Index')
+const Home = () => import('@/pages/index/children/Home')
+const Reco = () => import('@/pages/index/children/Reco')
+const Topic = () => import('@/pages/index/children/Topic')
+const Mine = () => import('@/pages/index/children/Mine')
+const SongList = () => import('@/pages/index/children/SongList')
+const Radio = () => import('@/pages/index/children/Radio')
+const Rank = () => import('@/pages/index/children/Rank')
+const SongListDetail = () => import('@/pages/detail/SongListDetail')
+const Playboard = () => import('@/pages/tools/Playboard')
+// const Search = () => import('@/pages/tools/Search')
 
 Vue.use(Router)
 
@@ -28,7 +28,7 @@ export default new Router({
           path: 'index',
           component: Index,
           redirect: '/index/home/reco',
-          meta: {keepAlive: true},
+          meta: { keepAlive: true },
           children: [
             {
               path: 'Home',
@@ -36,7 +36,7 @@ export default new Router({
               children: [
                 {
                   path: 'reco',
-                  meta: {keepAlive: true},
+                  meta: { keepAlive: true },
                   component: Reco
                 },
                 {
@@ -80,7 +80,7 @@ export default new Router({
       redirect: '/'
     }
   ],
-  crollBehavior (to, from, savedPosition) {
+  crollBehavior(to, from, savedPosition) {
     // return 期望滚动到哪个的位置
     return savedPosition
   }

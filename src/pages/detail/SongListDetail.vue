@@ -1,7 +1,9 @@
 <template>
   <div class="song-list-detail" >
     <div class="header">
-      <div class="bg" :style="{backgroundImage:'url('+($route.query.coverImgUrl ? $route.query.coverImgUrl : listInfo.coverImgUrl)+')',opacity: headerOpacity }"></div>
+      <div class="bg" :style="{opacity: headerOpacity}">
+        <div class="bg-img" :style="{backgroundImage:'url('+($route.query.coverImgUrl ? $route.query.coverImgUrl : listInfo.coverImgUrl)+')' }"></div>
+      </div>
       <div class="content">
         <p class="go-back iconfont icon-back" @click="goBack"></p>
         <p class="title ellipsis">
@@ -15,7 +17,9 @@
     <!--歌单信息-->
     <div class="wrap">
       <div class="info-wrap" :style="{opacity: 1 - headerOpacity}">
-        <div class="bg" :style="{backgroundImage:'url('+($route.query.coverImgUrl ? $route.query.coverImgUrl : listInfo.coverImgUrl)+')'}"></div>
+        <div class="bg">
+          <div class="bg-img" :style="{backgroundImage:'url('+($route.query.coverImgUrl ? $route.query.coverImgUrl : listInfo.coverImgUrl)+')' }"></div>
+        </div>
         <div class="content" ref="infoContent">
           <div class="row">
             <div class="cd">
@@ -66,7 +70,6 @@
             </p>
             <p class="multi-select"><i class="iconfont"></i>多选</p>
           </li>
-
           <li class="list-item" v-for="(item, index) in listContent" :key="item.id">
             <span class="num" v-if="listInfo.ordered">{{index+1}}</span>
             <div :to="{name:'Playboard',params:{id:item.id}}" class="name ellipsis" @click="addPlayOneSong(item)">
@@ -103,7 +106,6 @@
       }
     },
     mounted() {
-      console.log(this.$route.query.id)
       this.initData()
       window.onscroll = this.winScroll
       this.$nextTick(() => {
@@ -118,8 +120,8 @@
     watch: {
       '$route'(to, from) {
         this.initData()
+        window.onscroll = this.winScroll
       }
-
     },
     computed: {
       ...mapState([
@@ -152,7 +154,7 @@
       winScroll() {
         let top = Math.abs(document.documentElement.scrollTop || document.body.scrollTop)
         if(top >= INFO_HEIGHT) {
-          this.headerOpacity=1
+          this.headerOpacity = 1
           return
         }
         this.headerOpacity = top / INFO_HEIGHT
@@ -240,16 +242,25 @@ body
   left 0
   top 0
   background-size cover
-  background-color #000
+  background-color rgba(0,0,0,.5)
   z-index 1
   overflow hidden
+  .bg-img
+    position absolute
+    width 100%
+    height 100%
+    left 0
+    top 0
+    background-size cover
+    background-color #000
+    z-index 1
+    overflow hidden
+    filter blur(60px)
 .info-wrap
   position relative
   height 260px
   overflow hidden
   z-index 4
-  .bg
-    filter blur(60px)
   &>div
     width 100%
     position absolute

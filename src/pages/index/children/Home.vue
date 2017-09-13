@@ -4,7 +4,7 @@
       <li v-for="link in nav">
         <router-link :to="'/index/home/'+link.url" :class="{active: curPage == link.url}" ref="navItem">{{link.name}}</router-link>
       </li>
-      <span class="line" :style="{transform: 'translateX('+line.x+')',width: line.w}"></span>
+      <span class="line" :style="{transform: 'translateX('+line.x+')'}"></span>
     </ul>
     <div class="router-wrap">
       <keep-alive>
