@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="app">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
       </transition>
-    <player-mini></player-mini>
-  </div>
+      <player-mini></player-mini>
+    </div>
 </template>
 
 <script>

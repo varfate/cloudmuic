@@ -97,6 +97,10 @@ header
       &.active
         color: rgba(255,255,255,1)
 .router-wrap
-  margin-top: 50px
+  position absolute
+  left 0
+  top 50px
+  right 0
+  bottom 50px
 </style>
 

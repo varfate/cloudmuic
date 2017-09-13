@@ -211,8 +211,9 @@ body
   height 60px
   padding 0 18px
   color #fff
-  background-color rgba(0,0,0,.05)
   z-index 999
+  .bg
+    background-color mc
   .content
     position: relative
     display flex

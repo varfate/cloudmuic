@@ -21,47 +21,44 @@ export default new Router({
     {
       path: '/',
       component: App,
+      redirect: '/index/home/reco'
+    },
+    {
+      path: '/index',
+      component: Index,
       redirect: '/index/home/reco',
-      saveScrollPosition: true,
+      meta: { keepAlive: true },
       children: [
         {
-          path: 'index',
-          component: Index,
-          redirect: '/index/home/reco',
-          meta: { keepAlive: true },
+          path: 'Home',
+          component: Home,
           children: [
             {
-              path: 'Home',
-              component: Home,
-              children: [
-                {
-                  path: 'reco',
-                  meta: { keepAlive: true },
-                  component: Reco
-                },
-                {
-                  path: 'songlist',
-                  component: SongList
-                },
-                {
-                  path: 'radio',
-                  component: Radio
-                },
-                {
-                  path: 'rank',
-                  component: Rank
-                }
-              ]
+              path: 'reco',
+              meta: { keepAlive: true },
+              component: Reco
             },
             {
-              path: 'mine',
-              component: Mine,
+              path: 'songlist',
+              component: SongList
             },
             {
-              path: 'topic',
-              component: Topic,
+              path: 'radio',
+              component: Radio
+            },
+            {
+              path: 'rank',
+              component: Rank
             }
           ]
+        },
+        {
+          path: 'mine',
+          component: Mine,
+        },
+        {
+          path: 'topic',
+          component: Topic,
         }
       ]
     },
